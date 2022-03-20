@@ -1,19 +1,17 @@
 package waitInSelenium;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class ExplicitWait {
+public class ExplicitWait2 {
 
 	WebDriver webDriver;
 	WebDriverWait wait;
@@ -26,35 +24,26 @@ public class ExplicitWait {
 		// Creating Ref. variable and intialising with Chrome driver
 		webDriver = new ChromeDriver();
 
-		wait = new WebDriverWait(webDriver, 10);
+		wait = new WebDriverWait(webDriver, 30);
 
 		// Get the URL of the page0
-		webDriver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
-
+		webDriver.get("http://seleniumpractise.blogspot.com/2016/08/how-to-use-explicit-wait-in-selenium.html");
 		// Maximise the browser
 		webDriver.manage().window().maximize();
 
 	}
 
 	@Test
-	public void selectGender() {
-
-		WebElement emailInput = webDriver.findElement(By.cssSelector("#email_create"));
-		emailInput.sendKeys("31" + "@emal.com");
-		// System.out.println(("",
-		// 8)+"@emal.com");
-		WebElement clickCreateAccount = webDriver.findElement(By.cssSelector("#SubmitCreate"));
-		clickCreateAccount.click();
+	public void testExplicitWait() {
+		wait.until(ExpectedConditions
+				.elementToBeClickable(By.xpath("//button[contains(text(),'Click me to start timer')]")));
 		
-		//Element to be clickable
-		//wait.until(ExpectedConditions.elementToBeClickable(By.id("id_gender1")));
+		webDriver.findElement(By.xpath("//button[contains(text(),'Click me to start timer')]")).click();
 
-		//Visibility of element located by
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_gender1")));
-		
-		WebElement genderID = webDriver.findElement(By.cssSelector("#id_gender1"));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'WebDriver')]")));
 
-		genderID.click();
+		String text = webDriver.findElement(By.xpath("//p[contains(text(),'WebDriver')]")).getText();
+		Assert.assertEquals(text, "WebDriver");
 	}
 
 	@AfterMethod
